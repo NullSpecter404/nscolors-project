@@ -49,7 +49,7 @@ Returns text wrapped in ANSI color codes.
 
 Random color output (useful for fancy progress bars).
 
-### ✅ `DIRECT.sprint(text)`
+### ✅ `DIRECT.sprint(text, AP)`
 
 Prints parsed text directly.
 
