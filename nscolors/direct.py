@@ -94,7 +94,7 @@ class DIRECT(metaclass=AllStatic):
 
 
     def random_text_colored(text : str = "", text_style : str = "Normal", AP=True) -> str:
-        out = "".join(DIRECT.color(c, text_style, choice(random_color_choices)) for c in text)
+        out = "".join(DIRECT.color(c, text_style, choice(random_color_choices), AP=False) for c in text)
         if AP:
             print(out)
             return ""
