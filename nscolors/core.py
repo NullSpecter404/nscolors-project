@@ -150,7 +150,7 @@ def flatten(items) -> list:
     return result
 
 
-def customizable_progress_method(progress, total, length ,start_char, end_char, filled_char, empty_char, filled_color, empty_color, label="") -> None:
+def customizable_progress_method(progress : float, total : float, length : float ,start_char : str, end_char : str, filled_char : str, empty_char : str, filled_color, empty_color, label : str = "") -> None:
     try:
         points = "" if label == "" else " : "
         if total == 0:

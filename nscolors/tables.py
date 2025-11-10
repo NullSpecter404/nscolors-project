@@ -172,7 +172,7 @@ class Table:
             print()
 
         # HEADER SEPARATOR
-        if self.rows:  # فقط إذا كان هناك صفوف
+        if self.rows:
             self.draw_line(self.lc, self.cross, self.rc)
 
         # ROWS
@@ -194,7 +194,7 @@ class Table:
                     print(self.col_separator_color(self.v, AP=False), end="")
                 print()
 
-            # SEPARATOR BETWEEN ROWS (فقط إذا لم يكن آخر صف)
+            # SEPARATOR BETWEEN ROWS
             if row_idx < len(self.rows) - 1:
                 self.draw_line(self.lc, self.cross, self.rc)
 

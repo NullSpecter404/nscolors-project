@@ -14,5 +14,7 @@ from .tables import __tables_all__, Table
 
 __all__ = __colors_all__ + __core_all__ + __bg_all__ + __fg_all__ + __direct_all__ + __progress_all__ + __cursor_all__ + __tables_all__ + ["AllInfo"]
 __name__ = "nscolors"
+__description__ = "Lightweight cross-platform terminal coloring & utilities for Python"
+__license__ = "MIT"
 __author__ = "NullSpecter404"
-__version__ = "1.0.0"
+__version__ = "1.0.2"

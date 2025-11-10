@@ -5,7 +5,7 @@ from .colors import ESC, CSI, RESET_STYLE, WinBGColors
 
 class BG(metaclass=AllStatic):
 
-    def _print_bg(text, ansicode, wincolor, AP : bool = True) -> str:
+    def _print_bg(text : str, ansicode, wincolor, AP : bool = True) -> str:
         try:
             text_str = str(text) if text is not None else ""
             if mode == "ANSI":

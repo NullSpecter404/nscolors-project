@@ -1,154 +1,234 @@
-# nscolors
+# NSColors
 
-Lightweight cross-platform terminal coloring & utilities for Python
+A cross‑platform terminal styling library for Python with **no external
+dependencies**.\
+It provides **colors, tables, progress bars, cursor control, formatted
+printing, and rich text tags** --- all lightweight and customizable.
 
-nscolors is a compact package that provides ANSI/WinAPI-aware terminal coloring, simple RGB/256-color helpers, progress bars, cursor movement utilities, tables and more — all without external dependencies. This repository contains an early (v1.0.0) implementation designed for small CLI tools and scripts.
+------------------------------------------------------------------------
 
----
+## ✅ Features
 
-## Key features
+### 🎨 Colors (FG / BG)
 
-- Foreground (FG) and background (BG) helpers and convenience functions
-- direct color helpers (RGB, 256-color, random colors)
-- Table builder with ANSI-safe width calculations
-- Multiple progress-bar styles and a customizable progress method
-- Cursor control helpers (move, goto, hide/show)
-- Dual support: ANSI sequences and Windows WINAPI where available
-- Palettes loaded from `nscolors/palettes/` (JSON/TXT)
-- No external dependencies (pure Python)
+-   Foreground and background colors (standard + bright).
+-   Custom tags like: `<red>text</red>` or `<bg-blue>text</bg-blue>`.
+-   Works on Linux, macOS, and Windows without extra dependencies.
 
----
+### 🖨 DIRECT --- Smart Text Printing
 
-## Quick install
+The `DIRECT` module allows advanced styled printing using BBCode‑like
+tags.
 
-This project is a global package. To install (optional):
+#### **DIRECT.sprint(text: str)**
 
-```powershell
-# from repository nscolors
-python -m pip install nscolors
+Smart print that parses tags inside a string.
+
+**Example:**
+
+``` python
+from nscolors import DIRECT
+
+DIRECT.sprint("Hello <red>Red Text</red> and <green>Green Text</green>!")
 ```
 
-Or just import directly from the package folder in your project.
+**Supported tags:** - `<red>…</red>` - `<green>…</green>` -
+`<blue>…</blue>` - `<yellow>…</yellow>` - `<magenta>…</magenta>` -
+`<cyan>…</cyan>` - `<white>…</white>` - `<black>…</black>` -
+Nested tags supported.
 
----
+------------------------------------------------------------------------
 
-## Quick start
+## 📌 DIRECT --- Methods Overview
 
-Preferred import styles (avoid `from nscolors import *` in your own projects):
+### ✅ `DIRECT.color_text(text, color)`
 
-```python
-# explicit import (recommended)
-from nscolors.colors import colors, ESC, CSI, SEP, RESET_STYLE
-from nscolors.fg import FG
-from nscolors.bg import BG
-from nscolors.direct import DIRECT
-from nscolors.cursor import CURSOR
-from nscolors.progress import Progress
-from nscolors.tables import Table
+Returns text wrapped in ANSI color codes.
 
-# or namespace import
-import nscolors
-nscolors.FG.red("hello")
+### ✅ `DIRECT.random_text_colored(text, type)`
+
+Random color output (useful for fancy progress bars).
+
+### ✅ `DIRECT.tag_parse(text)`
+
+Parses tags like `<red>text</red>`.
+
+### ✅ `DIRECT.sprint(text)`
+
+Prints parsed text directly.
+
+------------------------------------------------------------------------
+
+## 🧭 Cursor Module
+
+The `cursor` module gives you full control over terminal positioning.
+
+### ✅ Methods
+
+  Method                   Description
+  ------------------------ -----------------------------------
+  `cursor.move_up(n, text)`      Move cursor *n* lines up
+  `cursor.move_down(n, text)`    Move down
+  `cursor.move_left(n, text)`    Move left
+  `cursor.move_right(n, text)`   Move right
+  `cursor.goto(x, y, text)`      Move to absolute position
+  `cursor.save()`          Save current cursor position
+  `cursor.restore()`       Restore previously saved position
+  `cursor.clear()`         Clear entire screen
+  `cursor.clear_line()`    Clear current line
+
+**Example:**
+
+``` python
+from nscolors import cursor
+
+cursor.move_up(2, "Placed text")
+cursor.move_right(10, "Placed text")
 ```
 
-Examples:
+------------------------------------------------------------------------
 
-```python
-from nscolors.fg import FG
-from nscolors.bg import BG
-from nscolors.direct import DIRECT
+## 📊 Table Module
 
-# simple foreground color
-FG.red("This text is red")
+Highly customizable table generator.
 
-# background and foreground
-BG.blue("This has a blue background")
-FG.white("White text")
+### ✅ Table Features
 
-# direct color (style + palette names)
-DIRECT.color("Styled text", text_style="Normal", color="Green", bgcolor="Black")
+-   Custom borders
+-   Custom separators
+-   Padding control
+-   Title with color and alignment
+-   Row height customization
+-   Full border & margin customization
 
-# rgb
-DIRECT.rgb("Truecolor text", R=200, G=100, B=50)
+### ✅ Example
 
-# progress bar
-from nscolors.progress import Progress
-for i in range(21):
-    Progress.block(i, 20)
+``` python
+from nscolors import Table, FG
 
-# cursor
-from nscolors.cursor import CURSOR
-CURSOR.goto(5, 10, "At row 5 col 10")
+table = Table(
+    title="Example Table",
+    justify="center",
+    col_separator="|",
+    row_separator="=",
+    title_color=FG.green,
+    col_color=FG.cyan,
+    row_color=FG.yellow,
+    cell_padding=1
+)
 
-# table
-from nscolors.tables import Table
-from nscolors.fg import FG
+table.add_row(["Name", "Age", "Country"]) or table.add_row("Name", "Age", "Country") or table.add_row(("Name", "Age", "Country"))
+table.add_row(["Jhon", "18", "USA"]) or table.add_row("Jhon", "18", "USA") or table.add_row(("Jhon", "18", "USA"))
 
-t = Table(title="Sample")
-t.add_column("Name", "Age")
-t.add_row("Alice", "30")
-t.add_row("Bob", "27")
-t.print_table()
+table.render()
 ```
 
----
+### ✅ Border & Margin Customization
 
-## API summary
+You can modify:
 
-Important modules / symbols exported by the package:
+-   `col_separator` → border between columns\
+-   `row_separator` → border between rows\
+-   `cell_padding` → space around each cell\
+-   `row_height` → number of lines per row\
+-   `*_color` → colors for each part
 
-- `nscolors.colors`:
-  - `ESC`, `CSI`, `SEP`, `RESET_STYLE` — low-level ANSI constants
-  - `colors`, `BgColors`, `TextStyles`, `WinFGColors`, `WinBGColors` — color palettes (dicts)
-- `nscolors.fg`:
-  - `FG` class with static methods: `FG.red(text)`, `FG.green(text)`, etc.
-- `nscolors.bg`:
-  - `BG` class with static methods for backgrounds: `BG.blue(text)`, etc.
-- `nscolors.direct`:
-  - `DIRECT.color`, `DIRECT.rgb`, `DIRECT.color256`, `DIRECT.random_text_colored`, `DIRECT.animated_write`
-- `nscolors.cursor`:
-  - `CURSOR.goto`, `CURSOR.up`, `CURSOR.down`, `CURSOR.hide_cursor`, etc.
-- `nscolors.progress`:
-  - `Progress` with different predefined styles (`block`, `arabic`, `professional`, ...)
-- `nscolors.tables`:
-  - `Table` class that handles column widths while stripping ANSI sequences.
-- `nscolors.core`:
-  - `GetSystemInfo()`, `init()`, `LoadPalette()` and other helper utilities
+------------------------------------------------------------------------
 
----
+## ⏳ Progress Bars
 
-## Notes & best practices
+A set of customizable progress bar generators.
 
-- Avoid `from nscolors import *` in your projects; prefer explicit imports or `import nscolors` to avoid namespace pollution.
-- Currently `nscolors/__init__.py` calls `GetSystemInfo()` and `init()` and some modules load palettes at import time. That means importing the package may perform I/O and attempt Windows console setup immediately. This behavior is intentional in this version but consider the cost in short-running scripts.
-- If you need to minimize import cost, import specific submodules only when required (e.g., only import `nscolors.tables` if you use tables).
-- Palettes are stored in `nscolors/palettes/`. You can edit or extend those JSON/TXT files to customize available named colors.
+### ✅ Example
 
----
+``` python
+from nscolors import Progress
 
-## Compatibility
+Progress.customizable_progress_method(
+    progress=40,
+    total=100,
+    length=30,
+    start_char="[",
+    end_char="]",
+    filled_char="=",
+    empty_char=".",
+    filled_color="green",
+    empty_color="red",
+    label="Loading"
+)
+```
 
-- Designed to work cross-platform with fallback to Windows WINAPI on older Windows releases.
-- For modern rich rendering or advanced terminal features, consider using `rich` (which provides more features and polished output), but `nscolors` is intentionally dependency-free and lightweight.
+### ✅ Features
 
----
+-   Full control over characters
+-   Full color customization
+-   Labels
+-   Dynamic update capability
 
-## Contributing
+------------------------------------------------------------------------
 
-Small, focused contributions are welcome. Suggested early PRs:
+## 🛠 Installation
 
-- Convert import-time palette loading to optional lazy-loading
-- Replace `import *` usage across package with explicit exports (internal refactor)
-- Add unit tests (pytest) for core functions like `LoadPalette`, `strip_ansi_codes` and color outputs
-- Improve error messages and unify logging format
+``` bash
+pip install nscolors
+```
 
-Please include a short description, test, and example for any new feature.
+------------------------------------------------------------------------
 
----
+## 📚 Basic Usage
 
-## License
+``` python
+from nscolors import FG, DIRECT
 
-As indicated in `pyproject.toml`, this project uses the MIT License. Include a `LICENSE` file in the repo if you plan to publish.
+DIRECT.sprint("<green>Hello World!</green>")
+FG.red("this is red")
+BG.green("this is green background")
+red_text = FG.red("this is red", AP=False)
+green_back = BG.green("this is green background", AP=False)
+```
 
----
+## Note
 
+- AP ---> Auto Print
+- if True (print text directly) if False (return colored text)
+
+------------------------------------------------------------------------
+
+## 🧱 Project Structure
+
+-   `FG.py` --- Foreground colors\
+-   `BG.py` --- Background colors\
+-   `DIRECT.py` --- Tag printing engine\
+-   `cursor.py` --- Terminal cursor control\
+-   `Table.py` --- Table generator\
+-   `Progress.py` --- Progress bars
+
+------------------------------------------------------------------------
+
+## ✅ Future Improvements
+
+-   Adding themes\
+-   Auto column width detection\
+-   Table highlighting
+
+------------------------------------------------------------------------
+
+## 🏁 Final Notes
+
+NSColors is built to be:
+
+✅ Lightweight\
+✅ Dependency-free\
+✅ Beginner-friendly\
+✅ Highly customizable
+
+Perfect for CLI tools, dashboards, renderers, and hacking utilities.
+
+------------------------------------------------------------------------
+
+## 💬 Author
+
+**NullSpecter404**\
+GitHub: *(https://github.com/NullSpecter404/nscolors-project)*
+
+------------------------------------------------------------------------

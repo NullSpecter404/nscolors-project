@@ -2,16 +2,16 @@ from .core import AllStatic, logger
 from .core import mouvement_creator_method
 
 class CURSOR(metaclass=AllStatic):
-    def up(step=1, text: str = "") -> None: 
+    def up(step : int = 1, text: str = "") -> None: 
         mouvement_creator_method(step, "A", text)
     
-    def down(step=1, text: str = "") -> None: 
+    def down(step : int = 1, text: str = "") -> None: 
         mouvement_creator_method(step, "B", text)
     
-    def right(step=1, text: str = "") -> None: 
+    def right(step : int = 1, text: str = "") -> None: 
         mouvement_creator_method(step, "C", text)
     
-    def left(step=1, text: str = "") -> None: 
+    def left(step : int = 1, text: str = "") -> None: 
         mouvement_creator_method(step, "D", text)
     
     def save_position() -> None: 
