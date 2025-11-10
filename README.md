@@ -41,17 +41,13 @@ Nested tags supported.
 
 ## 📌 DIRECT --- Methods Overview
 
-### ✅ `DIRECT.color_text(text, color)`
+### ✅ `DIRECT.color(text, text_style, color, bgcolor, AP)`
 
 Returns text wrapped in ANSI color codes.
 
-### ✅ `DIRECT.random_text_colored(text, type)`
+### ✅ `DIRECT.random_text_colored(text, text_style, AP)`
 
 Random color output (useful for fancy progress bars).
-
-### ✅ `DIRECT.tag_parse(text)`
-
-Parses tags like `<red>text</red>`.
 
 ### ✅ `DIRECT.sprint(text)`
 
@@ -144,7 +140,7 @@ A set of customizable progress bar generators.
 ``` python
 from nscolors import Progress
 
-Progress.customizable_progress_method(
+core.customizable_progress_method(
     progress=40,
     total=100,
     length=30,
