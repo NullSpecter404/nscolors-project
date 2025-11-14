@@ -138,9 +138,9 @@ A set of customizable progress bar generators.
 ### ✅ Example
 
 ``` python
-from nscolors import Progress
+from nscolors import core
 
-core.customizable_progress_method(
+    core.customizable_progress_method(
     progress=40,
     total=100,
     length=30,
